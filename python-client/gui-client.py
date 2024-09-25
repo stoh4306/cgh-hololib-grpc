@@ -28,7 +28,9 @@ class UnaryClient(object):
 
         # instantiate a channel
         self.channel = grpc.insecure_channel(
-            '{}:{}'.format(self.host, self.server_port))
+            '{}:{}'.format(self.host, self.server_port),
+            options=[('grpc.max_send_message_length', 100*1024*1024),
+                     ('grpc.max_receive_message_length', 100*1024*1024)])
 
         # bind the client and the server
         self.stub = hololib_pb2_grpc.GreeterStub(self.channel)
